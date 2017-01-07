@@ -1,0 +1,70 @@
+package DetectorOptions;
+
+message ObjectOptions {
+	required string name = 2;
+	required string mesh_file = 3;
+	// maximum number of instances allowed in the scene	
+	optional int32 instances = 4 [default=1];
+	// Nearest neighbor search radius, small for small objects,
+	// larger for larger objects
+	optional float nn_search_radius = 5 [default=0.01];
+	optional int32 icp_iterations = 6 [default=60];
+	// currently not supported
+	optional bool align_z_axis = 7 [default=false];
+	optional int32 max_location_hypotheses = 8 [default=12];	
+	optional bool should_detect = 9 [default=true];
+}
+
+message Options { 
+	repeated ObjectOptions object_options = 1;
+	required string forest_folder = 2;
+	required string caffe_definition = 3;
+	required string caffe_weights = 4;
+	optional int32 stride = 5 [default = 4];
+	optional int32 gpu = 6 [default = -1];
+	optional int32 num_threads = 7 [default = 4];
+	optional float max_depth_range_in_patch_in_m = 8 [default = 0.25];
+	optional int32 batch_size = 9 [default = 100];
+	optional float fx = 10 [default = 575];
+	optional float fy = 11 [default = 575];
+	optional float cx = 12 [default = 319.5];
+	optional float cy = 13 [default = 239.5];
+	// if there is only one object to the scene, set to true	
+	optional bool search_single_object_instance = 14 [default = false];
+	// if object are not close to each other, set to true for faster performace	
+	optional bool search_single_object_in_group = 15 [default = false];
+	// set to false if the mesh does not contain the color of the object
+	optional bool use_color_similarity = 16 [default = true];
+	// The final score of a hypotheses is computed as a weighted average 
+	// of the similarity (NN lookup), inliers (how many points are considered to
+	// be part of the object), clutter (how many points in the scene are unexplained),
+	// location score (peak from hough voting), and pose score (again in hough voting)
+	// below are the weights of each one, feel free to experiment with these weights
+	// for a particular scene and camera.
+	optional float similarity_coeff = 17 [default = 10];
+	optional float inliers_coeff = 18 [default = 2.5];
+	// clutter is actually subtracted	
+	optional float clutter_coeff = 19 [default = 1.4];
+	optional float location_score_coeff = 20 [default = 1];
+	optional float pose_score_coeff = 21 [default = 0.7]; 
+	// the group options are used only when search_single_object_instance is false
+	// and search_single_object_in_group is false
+	// It is actually the joined optimization in a group of overlapping hypotheses
+	optional float group_total_explain_coeff = 22 [default = 0.5];
+	// this is subtracted	
+	optional float group_common_explain_coeff = 23 [default = 0.3];
+	// set a threshold to some of them to reject a hypothesis
+	optional float inliers_threshold = 24 [default = 0.6];
+	optional float clutter_threshold = 25 [default = 0.6];
+	optional float final_score_threshold = 26 [default = 10];
+	// Clustering options. Use the option --show_clustered_image
+	// To find the best parameters for your scene
+	optional float cluster_eps_angle_threshold = 27 [default = 0.05];
+	optional int32 cluster_min_points = 28 [default = 5];
+	optional float cluster_curvature_threshold = 29 [default = 0.1];
+	optional float cluster_tolerance_near = 30 [default = 0.03];
+	optional float cluster_tolerance_far = 31 [default = 0.05];
+	// maximum distance from the camera that we want to detect objects (in meters)
+	optional float distance_threshold = 32 [default = 1.5];
+	optional bool are_objects_segmented = 33 [default = false];
+}
