@@ -69,6 +69,9 @@ void RenderViewsTesselatedSphere::save_rendering(const vtkSmartPointer<vtkRender
     windowToImageFilter->SetInput(render_win);
     windowToImageFilter->SetMagnification(1);
     windowToImageFilter->SetInputBufferTypeToRGB();
+    // if there are problems with rendering, try
+    // to commenting out the line below
+    windowToImageFilter->ReadFrontBufferOff();
 
     vtkSmartPointer<vtkPNGWriter> writer = vtkSmartPointer<vtkPNGWriter>::New();
     std::stringstream fname;
