@@ -68,7 +68,7 @@ Unfortunately it is not a separate library, but one can use just this part of th
 To detect your trained objects on a scene, you first need to start the HoughForest in testing mode and provide the options file that was generated during training, for example:
 
 ```bash
-./HoughForest --test --object_options=testing/object_options.proto
+./HoughForest --test --detector_options_file=testing/object_options.proto
 ```
 
 The detector loads the forest and the network, and when finished it is waiting for the input images. You should provide two strings, the first containing the path to the RGB image, and the second the path to the corresponding depth image. After you enter these two strings (with an enter between them) the detection starts. By default, the output is written to the folder you execute the binary, but you can specify your output directory by using the option *--output_dir=/your/output/folder*. In case you want to test multiple images, you should construct a file containing the RGB and depth images one under the other, and execute the binary with the option *< your_input_images.txt*.
