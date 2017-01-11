@@ -210,7 +210,7 @@ layers {
   name: \"data\"
   type: DATA
   data_param {
-    source: \"$caffe_patches_folder\"
+    source: \"./$caffe_patches_folder\"
     backend: LMDB
     batch_size: $BATCH_SIZE
   }
